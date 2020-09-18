@@ -3,11 +3,6 @@
 This repository provides a simple pipeline to co-register different imaging modalities and skull strip them.
 For example, this pipeline is designed for the BraTS dataset.
 
-## Requirement:
-```
-pip install  git+https://github.com/ReubenDo/MRIPreprocessor#egg=MRIPreprocessor
-```
-
 ## To install the package:
 ```
 pip install  git+https://github.com/ReubenDo/MRIPreprocessor#egg=MRIPreprocessor
