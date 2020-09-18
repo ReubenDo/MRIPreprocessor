@@ -8,7 +8,8 @@ from setuptools import setup, find_packages
 
 requirements = [
     'antspyx',
-    'nibabel'
+    'nibabel',
+    'HD-BET @ git+https://github.com/MIC-DKFZ/HD-BET#egg=HD-BET'
 ]
 
 setup(
@@ -29,7 +30,6 @@ setup(
         "Simple preprocessor for coregistration and skull-stripping"
     ),
     install_requires=requirements,
-    install_requires = ['HD-BET @ git+https://github.com/MIC-DKFZ/HD-BET#egg=HD-BET'],
     license="MIT license",
     long_description_content_type='text/markdown',
     include_package_data=True,
