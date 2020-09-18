@@ -13,7 +13,7 @@ pip install  git+https://github.com/ReubenDo/MRIPreprocessor#egg=MRIPreprocessor
 
 ## Example case:
 Let's assume we have access to 4 imaging modalities (e.g. T1, T1c, T2, FLAIR) and we want to co-register and skull strip them using T1 as reference:
-```
+```python
 from MRIPreprocessor.mri_preprocessor import Preprocessor
 
 # 4 Modalities to co-register using an affine transformation
