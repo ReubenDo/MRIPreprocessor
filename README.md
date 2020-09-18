@@ -2,7 +2,7 @@
 
 This repository provides a simple pipeline to co-register different imaging modalities and skull strip them.
 
-This package use HD-BET (https://github.com/MIC-DKFZ/HD-BET) and ANTsPy (https://github.com/ANTsX/ANTsPy).
+This package uses HD-BET (https://github.com/MIC-DKFZ/HD-BET) and ANTsPy (https://github.com/ANTsX/ANTsPy).
 
 For example, this pipeline is designed for the BraTS dataset.
 
