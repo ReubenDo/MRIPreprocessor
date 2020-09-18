@@ -1,6 +1,9 @@
 # MRIPreprocessor
 
 This repository provides a simple pipeline to co-register different imaging modalities and skull strip them.
+
+This package use HD-BET (https://github.com/MIC-DKFZ/HD-BET) and ANTsPy (https://github.com/ANTsX/ANTsPy).
+
 For example, this pipeline is designed for the BraTS dataset.
 
 ## To install the package:
@@ -25,3 +28,4 @@ ppr = Preprocessor({'T1':'./data/example_T1.nii.gz',
 ppr.run_pipeline()
 ```
 The output folder will contain two folders nammed `coregistration` and `skullstripping` containing respectively the co-registered modalities and the skull-stripped and co-registered imaging modalities.
+
