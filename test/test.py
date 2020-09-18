@@ -7,11 +7,11 @@ from MRIPreprocessor.mri_preprocessor import Preprocessor
 # for this test we use the data provided by the bratstoolkit
 URL = 'https://neuronflow.github.io/BraTS-Preprocessor/downloads/example_data.zip'
 PATHS = {
-		'T1':'exam_import/OtherEXampleFromTCIA/T1_AX_OtherEXampleTCIA_TCGA-FG-6692_Si_TCGA-FG-6692_T1_AX_SE_10_se2d1_t1.nii.gz',
-		'T1c':'exam_import/OtherEXampleFromTCIA/MRHR_T1_AX_POST_GAD_OtherEXampleTCIA_TCGA-FG-6692_Si_TCGA-FG-6692_MRHR_T1_AX_POST_GAD_SE_13_se2d1r_t1c.nii.gz',
-		'T2':'exam_import/OtherEXampleFromTCIA/MRHR_T2_AX_OtherEXampleTCIA_TCGA-FG-6692_Si_TCGA-FG-6692_MRHR_T2_AX_SE_2_tse2d1_11_t2.nii.gz',
-		'FLAIR':'exam_import/OtherEXampleFromTCIA/MRHR_FLAIR_AX_OtherEXampleTCIA_TCGA-FG-6692_Si_TCGA-FG-6692_MRHR_FLAIR_AX_SE_IR_5_tir2d1_21_fla.nii.gz'
-		} 
+	'T1':'exam_import/OtherEXampleFromTCIA/T1_AX_OtherEXampleTCIA_TCGA-FG-6692_Si_TCGA-FG-6692_T1_AX_SE_10_se2d1_t1.nii.gz',
+	'T1c':'exam_import/OtherEXampleFromTCIA/MRHR_T1_AX_POST_GAD_OtherEXampleTCIA_TCGA-FG-6692_Si_TCGA-FG-6692_MRHR_T1_AX_POST_GAD_SE_13_se2d1r_t1c.nii.gz',
+	'T2':'exam_import/OtherEXampleFromTCIA/MRHR_T2_AX_OtherEXampleTCIA_TCGA-FG-6692_Si_TCGA-FG-6692_MRHR_T2_AX_SE_2_tse2d1_11_t2.nii.gz',
+	'FLAIR':'exam_import/OtherEXampleFromTCIA/MRHR_FLAIR_AX_OtherEXampleTCIA_TCGA-FG-6692_Si_TCGA-FG-6692_MRHR_FLAIR_AX_SE_IR_5_tir2d1_21_fla.nii.gz'
+	} 
 
 # download the file contents in binary format
 r = requests.get(URL)
