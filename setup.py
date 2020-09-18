@@ -29,7 +29,7 @@ setup(
         "Simple preprocessor for coregistration and skull-stripping"
     ),
     install_requires=requirements,
-    install_requires = ['HD_BET @ git+https://github.com/MIC-DKFZ/HD-BET#egg=HD-BET'],
+    install_requires = ['HD-BET @ git+https://github.com/MIC-DKFZ/HD-BET#egg=HD-BET'],
     license="MIT license",
     long_description_content_type='text/markdown',
     include_package_data=True,
