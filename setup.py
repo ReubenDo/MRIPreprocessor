@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 requirements = [
     'antspyx',
     'nibabel',
-    'HD-BET @ git+https://github.com/MIC-DKFZ/HD-BET#egg=HD-BET'
+    'HD_BET @ git+https://github.com/MIC-DKFZ/HD-BET#egg=HD-BET'
 ]
 
 setup(
