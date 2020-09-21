@@ -2,6 +2,7 @@ import ants
 import os
 from HD_BET.run import run_hd_bet
 import nibabel as nib
+import SimpleITK as sitk
 
 
 class Preprocessor():
@@ -36,15 +37,27 @@ class Preprocessor():
         output_filename = os.path.join(save_folder, f"{modality}.nii.gz")
         ants.image_write(img, output_filename)
 
-    def _apply_mask(self, input, output, mask):
-        input_img = nib.load(input)
-        input_affine = input_img.affine 
-        input_data = input_img.get_fdata()
+    def _apply_mask(self, input, output, reference, mask):
+        # Reorient in case HD-BET changed the orientation of the raw file
+        input_img = sitk.ReadImage(input)
+        ref_img = sitk.ReadImage(reference)
+        output_img = sitk.Resample(
+            input_img,
+            ref_img,
+            sitk.Transform(),
+            sitk.sitkNearestNeighbor,
+        )
+        sitk.WriteImage(output_img, output)
+        
+        # Apply mask
+        output_img = nib.load(output)
+        output_affine = output_img.affine 
+        output_data = output_img.get_fdata()
 
         mask_data = nib.load(mask).get_fdata()
 
-        input_data[mask_data==0] = 0
-        output_img = nib.Nifti1Image(input_data, input_affine)
+        output_data[mask_data==0] = 0
+        output_img = nib.Nifti1Image(output_data, output_affine)
         nib.save(output_img, output)
 
     
@@ -74,7 +87,7 @@ class Preprocessor():
         for mod in modalities_tosk:
             registered_mod = os.path.join(self.coregistration_folder, f"{mod}.nii.gz")
             skullstripped_mod = os.path.join(self.skullstrip_folder, f"{mod}.nii.gz")
-            self._apply_mask(input=registered_mod, output=skullstripped_mod, mask=mask_sk)
+            self._apply_mask(input=registered_mod, output=skullstripped_mod, reference=ref_sk, mask=mask_sk)
 
     def run_pipeline(self):
         self._run_coregistration()
