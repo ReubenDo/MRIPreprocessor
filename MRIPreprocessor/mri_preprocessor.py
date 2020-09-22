@@ -3,6 +3,7 @@ import os
 from HD_BET.run import run_hd_bet
 import nibabel as nib
 import SimpleITK as sitk
+import torch
 
 
 class Preprocessor():
@@ -28,7 +29,11 @@ class Preprocessor():
 
         self.skullstrip_folder = os.path.join(self.output_folder, 'skullstripping')
         if not os.path.exists(self.skullstrip_folder):
-            os.makedirs(self.skullstrip_folder)       
+            os.makedirs(self.skullstrip_folder)
+
+        self.device = "0" if torch.cuda.is_available() else "cpu"
+
+
 
         
     def _save_scan(self, img, modality, save_folder):
@@ -80,7 +85,7 @@ class Preprocessor():
         print("[INFO] Performing Skull Stripping using HD-BET")
         ref_sk = os.path.join(self.skullstrip_folder, f"{self.reference}.nii.gz")
         mask_sk = os.path.join(self.skullstrip_folder, f"{self.reference}_mask.nii.gz")
-        run_hd_bet(self.dict_img[self.reference], ref_sk)
+        run_hd_bet(self.dict_img[self.reference], ref_sk, device=self.device)
 
         modalities_tosk = list(self.dict_img.keys())
         modalities_tosk.remove(self.reference)
