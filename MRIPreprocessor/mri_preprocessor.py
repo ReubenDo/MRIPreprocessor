@@ -31,7 +31,7 @@ class Preprocessor():
         if not os.path.exists(self.skullstrip_folder):
             os.makedirs(self.skullstrip_folder)
 
-        self.device = "0" if torch.cuda.is_available() else "cpu"
+        self.device = 0 if torch.cuda.is_available() else "cpu"
 
 
 
