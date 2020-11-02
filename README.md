@@ -12,7 +12,12 @@ pip install  git+https://github.com/ReubenDo/MRIPreprocessor#egg=MRIPreprocessor
 ```
 
 ## Example case:
-Let's assume we have access to 4 imaging modalities (e.g. T1, T1c, T2, FLAIR) and we want to co-register and skull strip them using T1 as reference:
+Let's assume we have access to 4 imaging modalities (e.g. T1, T1c, T2, FLAIR) and we want to:
+- co-register the scans using T1 as reference
+- in the MNI space
+- skull strip the scan
+- crop the skull-stripped scans to remove the zero padding 
+
 ```python
 from MRIPreprocessor.mri_preprocessor import Preprocessor
 
@@ -23,9 +28,11 @@ ppr = Preprocessor({'T1':'./data/example_T1.nii.gz',
                     'T1c':'./data/example_T1c.nii.gz',
                     'FLAIR':'./data/example_FLAIR.nii.gz'},
                     output_folder = './data/output',
-                    reference='T1')
+                    reference='T1',
+                    mni=True,
+                    crop=True)
 
 ppr.run_pipeline()
 ```
-The output folder will contain two folders nammed `coregistration` and `skullstripping` containing respectively the co-registered modalities and the skull-stripped and co-registered imaging modalities.
+The output folder will contain tgree folders nammed `coregistration`, `skullstripping` and `cropping` containing respectively the co-registered modalities, the skull-stripped and co-registered imaging modalities and the cropped versions of these latter skull-stripped scans.
 
