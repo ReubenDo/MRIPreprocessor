@@ -37,6 +37,8 @@ ppr = Preprocessor({'T1':'data/example_T1.nii.gz',
                     'T1c':'data/example_T1c.nii.gz',
                     'FLAIR':'data/example_FLAIR.nii.gz'},
                     output_folder = 'data/output',
-                    reference='T1')
+                    reference='T1',
+					mni=True,
+					crop=True)
 
 ppr.run_pipeline()
