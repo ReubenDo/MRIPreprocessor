@@ -9,6 +9,7 @@ from setuptools import setup, find_packages
 requirements = [
     'antspyx',
     'nibabel',
+    'SimpleITK<2',
     'HD-BET @ git+https://github.com/ReubenDo/HD-BET#egg=HD-BET',
 ]
 
