@@ -41,6 +41,6 @@ setup(
     setup_requires=[],
     tests_require=[],
     url='https://github.com/ReubenDo/MRIPreprocessor',
-    version='0.0.2',
+    version='0.0.3',
     zip_safe=False,
 )

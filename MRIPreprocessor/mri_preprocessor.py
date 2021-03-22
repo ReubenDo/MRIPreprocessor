@@ -14,6 +14,7 @@ class Preprocessor():
                 label=None,
                 prefix="",
                 reference=None,
+                already_coregistered=False,
                 mni=False,
                 crop=False):
         
@@ -22,6 +23,7 @@ class Preprocessor():
         self.output_folder = output_folder
         self.label = label
         self.prefix = prefix
+        self.already_coregistered = already_coregistered
         self.mni = mni
         self.crop = crop
 
@@ -91,29 +93,47 @@ class Preprocessor():
 
     
     def _run_coregistration(self):
-        print("[INFO] Performing Coregistration using ANTsPy")
-        print(f"{self.reference} is used as reference")
         img_reference = ants.image_read(self.dict_img[self.reference], reorient=True)
+
+        # Register the reference to MNI, if needed
         if self.mni:
-            print("[INFO] Registering to 1x1x1mm MNI space")
+            print(f"[INFO] Registering to 1x1x1mm MNI space using ANTsPy")
+            print(f"{self.reference} is used as reference")
             img_mni = ants.image_read(self.mni_path, reorient=True)
             reg = ants.registration(img_mni, img_reference, "Affine")
             img_reference = reg["warpedmovout"]
             self._save_scan(img_reference, f"{self.prefix}{self.reference}", self.coregistration_folder)
+            reg_tomni = reg["fwdtransforms"]
             if not self.label is None:
                 img_label = ants.image_read(self.label, reorient=True)
-                warped_label = ants.apply_transforms(img_mni, img_label, reg["fwdtransforms"], interpolator="nearestNeighbor")
+                warped_label = ants.apply_transforms(img_mni, img_label, reg_tomni, interpolator="nearestNeighbor")
                 self._save_scan(warped_label, f"{self.prefix}Label", self.coregistration_folder)
+        else:
+            self._save_scan(img_reference, f"{self.prefix}{self.reference}", self.coregistration_folder)
+            if not self.label is None:
+                img_label = ants.image_read(self.label, reorient=True)
+                self._save_scan(img_label, f"{self.prefix}Label", self.coregistration_folder)
 
-             
-
+        # Register the other scans, if needed
         modalities_toregister = list(self.modalities)
         modalities_toregister.remove(self.reference)
         for mod in modalities_toregister:
-            img_mod = ants.image_read(self.dict_img[mod], reorient=True)
-            reg = ants.registration(img_reference, img_mod, "Affine")
-            self._save_scan(reg["warpedmovout"], f"{self.prefix}{mod}", self.coregistration_folder)
-            print(f"Registration performed for {mod}")
+            if self.already_coregistered: 
+                if self.mni: # if the scans are already co-registered we reuse the ref to MNI transformation
+                    img_mod = ants.image_read(self.dict_img[mod], reorient=True)
+                    warped_img = ants.apply_transforms(img_mni, img_mod, reg_tomni, interpolator="linear")
+                    self._save_scan(warped_img, f"{self.prefix}{mod}", self.coregistration_folder)
+                    print(f"[INFO] Registration performed to MNI for {mod}")
+                else:
+                    img_mod = ants.image_read(self.dict_img[mod], reorient=True)
+                    self._save_scan(img_mod, f"{self.prefix}{mod}", self.coregistration_folder)
+                    print(f"No co-registration performed for {mod}")
+
+            else: # Scans are not co-registered
+                img_mod = ants.image_read(self.dict_img[mod], reorient=True)
+                reg = ants.registration(img_reference, img_mod, "Affine")
+                self._save_scan(reg["warpedmovout"], f"{self.prefix}{mod}", self.coregistration_folder)
+                print(f"[INFO] Registration using ANTsPy for {mod} with {self.reference} as reference")
         
     
     def _run_skullstripping(self):
