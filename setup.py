@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 requirements = [
     'antspyx',
     'nibabel',
-    'scipy==1.2.1',
+    'scipy',
     'SimpleITK<2',
     'HD-BET @ git+https://github.com/ReubenDo/HD-BET#egg=HD-BET',
 ]
@@ -41,6 +41,6 @@ setup(
     setup_requires=[],
     tests_require=[],
     url='https://github.com/ReubenDo/MRIPreprocessor',
-    version='0.0.3',
+    version='0.0.4',
     zip_safe=False,
 )

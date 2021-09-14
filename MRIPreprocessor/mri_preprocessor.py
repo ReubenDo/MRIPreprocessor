@@ -14,6 +14,7 @@ class Preprocessor():
                 label=None,
                 prefix="",
                 reference=None,
+                skull_stripping=True,
                 already_coregistered=False,
                 mni=False,
                 crop=False):
@@ -23,6 +24,7 @@ class Preprocessor():
         self.output_folder = output_folder
         self.label = label
         self.prefix = prefix
+        self.skull_stripping = skull_stripping
         self.already_coregistered = already_coregistered
         self.mni = mni
         self.crop = crop
@@ -40,18 +42,23 @@ class Preprocessor():
         if not label is None:
             assert os.path.exists(label), "Label map doesn't exist"
 
+        
+
         # Get mni if needed
         if self.mni:
-            self.mni_path = get_mni()
+            self.mni_path = get_mni(self.skull_stripping)
 
         # Create relevant folders if needed
         self.coregistration_folder = os.path.join(self.output_folder, "coregistration")
         if not os.path.exists(self.coregistration_folder):
             os.makedirs(self.coregistration_folder)
 
-        self.skullstrip_folder = os.path.join(self.output_folder, "skullstripping")
-        if not os.path.exists(self.skullstrip_folder):
-            os.makedirs(self.skullstrip_folder)
+        if self.skull_stripping:
+            self.skullstrip_folder = os.path.join(self.output_folder, "skullstripping")
+            if not os.path.exists(self.skullstrip_folder):
+                os.makedirs(self.skullstrip_folder)
+        else:
+            self.skullstrip_folder = self.coregistration_folder
 
         if crop:
             self.cropping_folder = os.path.join(self.output_folder, "cropping")
@@ -173,6 +180,7 @@ class Preprocessor():
 
     def run_pipeline(self):
         self._run_coregistration()
-        self._run_skullstripping()
+        if self.skull_stripping:
+            self._run_skullstripping()
         if self.crop:
             self._run_cropping()

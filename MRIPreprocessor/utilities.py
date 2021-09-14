@@ -61,10 +61,12 @@ def crop_scans(reference, inputs, outputs):
 
 
 
-def get_mni():
+def get_mni(skull_stripping):
     tmp_folder = os.path.join(list(MRIPreprocessor.__path__)[0], "data")
     path_mni = os.path.join(tmp_folder, 'mni.nii.gz')
-    if not os.path.exists(path_mni):
+    path_mask = os.path.join(tmp_folder, 'mask.nii.gz')
+    path_mni_sk = os.path.join(tmp_folder, 'mni_sk.nii.gz')
+    if not os.path.exists(path_mni) or not os.path.exists(path_mni_sk):
         print('MNI template not found. Downloading...')
         URL = 'http://www.bic.mni.mcgill.ca/~vfonov/icbm/2009/mni_icbm152_nlin_sym_09a_nifti.zip'
         
@@ -81,12 +83,27 @@ def get_mni():
             code.write(r.content)
             
         filname_mni = 'mni_icbm152_nlin_sym_09a/mni_icbm152_t1_tal_nlin_sym_09a.nii'
+        filname_mask = 'mni_icbm152_nlin_sym_09a/mni_icbm152_t1_tal_nlin_sym_09a_mask.nii'
             
         # extracting MNI file
         with ZipFile(local_path, 'r') as z:
             with open(path_mni, 'wb') as f:
                 f.write(z.read(filname_mni))
+        
+        # extracting mask file
+        with ZipFile(local_path, 'r') as z:
+            with open(path_mask, 'wb') as f:
+                f.write(z.read(filname_mask))
+
+        mask = sitk.ReadImage(path_mask)
+        mni = sitk.ReadImage(path_mni)
+
+        mni_sk = mask * mni
+        sitk.WriteImage(mni_sk, path_mni_sk)
                 
         os.remove(local_path)
-        
-    return path_mni 
+    
+    if skull_stripping:
+        return path_mni
+    else:
+        return path_mni_sk 
