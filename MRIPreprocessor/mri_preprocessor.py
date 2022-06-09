@@ -148,7 +148,7 @@ class Preprocessor():
         ref_co = os.path.join(self.coregistration_folder, f"{self.prefix}{self.reference}.nii.gz")
         ref_sk = os.path.join(self.skullstrip_folder, f"{self.prefix}{self.reference}.nii.gz")
         mask_sk = os.path.join(self.skullstrip_folder, f"{self.prefix}{self.reference}_mask.nii.gz")
-        run_hd_bet(ref_co, ref_sk, device=self.device)
+        run_hd_bet(ref_co, ref_sk, mode="fast", device=self.device, do_tta=False)
 
         modalities_tosk = list(self.modalities)
         modalities_tosk.remove(self.reference)
