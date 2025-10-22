@@ -6,6 +6,22 @@ This package uses HD-BET (https://github.com/MIC-DKFZ/HD-BET) and ANTsPy (https:
 
 For example, this pipeline is designed for the BraTS dataset.
 
+
+If you find this code useful for your research, please cite the following paper:
+
+```
+@article{dorent2021learning,
+  title={Learning joint segmentation of tissues and brain lesions from task-specific hetero-modal domain-shifted datasets},
+  author={Dorent, Reuben and Booth, Thomas and Li, Wenqi and Sudre, Carole H and Kafiabadi, Sina and Cardoso, Jorge and Ourselin, Sebastien and Vercauteren, Tom},
+  journal={Medical image analysis},
+  volume={67},
+  pages={101862},
+  year={2021},
+  publisher={Elsevier}
+}
+
+```
+
 ## To install the package:
 ```
 pip install  git+https://github.com/ReubenDo/MRIPreprocessor#egg=MRIPreprocessor
